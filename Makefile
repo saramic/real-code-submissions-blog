@@ -1,4 +1,4 @@
-PROJECT := cash coding exercise 20191110
+PROJECT := real-code-submission-blog
 
 default: build
 
