@@ -32,5 +32,7 @@ RUN yarn install
 
 COPY . /usr/src/app/
 
+ENTRYPOINT ["./bin/docker-entrypoint"]
+
 CMD ["bin/rails", "server", "--binding", "0.0.0.0"]
 

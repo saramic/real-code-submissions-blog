@@ -6,27 +6,19 @@
 make
 ```
 
-## Other
+## Docker
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+```
+docker-compose build
+docker-compose up
+```
 
-Things you may want to cover:
+This fires up `web` (rails server) dependent on `database` and
+`webpack_dev_server`. `web` talks to `database` on the `back` internal
+network. `web` is also exposed on the `web` bridge accessible by other
+docker-compose as the external network `real-code-submission-blog_web`.
+This is what is being used by the docker-compose in the
+https://github.com/saramic/real-code-challenge-blog project.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+**Note:** the `webpack_dev_server` container is currently running
+`webpack` as otherwise the fingerprint on packs does not match up.

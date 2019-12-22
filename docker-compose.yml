@@ -6,23 +6,39 @@ services:
     build: .
     ports:
       - "3000:3000"
+    depends_on:
+      - webpack_dev_server
+      - database
     volumes:
       - .:/usr/src/app
       - gem_cache:/gems
+      - packs:/usr/src/app/public/packs
     env_file:
       - .env/development/web
       - .env/development/database
     environment:
       - WEBPACK_DEV_SERVER_HOST=webpack-dev-sever
+    links:
+      - database
+    networks:
+      - web
+      - back
 
   webpack_dev_server:
     build: .
-    command: ./bin/webpack-dev-server
+    # TODO: switched to `bin/webpack` as that matches the fingerprint on the
+    # webpacked filed that is expected by rails. The dev-server generates a
+    # different finger print. This also means there will be no reloading, just
+    # run once.
+    #
+    # command: ./bin/webpack-dev-server
+    command: ./bin/webpack
     ports:
       - "3035:3035"
     volumes:
       - .:/usr/src/app
       - gem_cache:/gems
+      - packs:/usr/src/app/public/packs
     env_file:
       - .env/development/web
       - .env/development/database
@@ -38,7 +54,15 @@ services:
       - .env/development/database
     volumes:
       - db_data:/var/lib/postgresql/data
+    networks:
+      - back
+
+networks:
+  back:
+  web:
+    driver: bridge
 
 volumes:
   db_data:
   gem_cache:
+  packs:
